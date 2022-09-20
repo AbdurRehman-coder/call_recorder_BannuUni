@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "472799000946",
+    "project_id": "call-recoder-c079d",
+    "storage_bucket": "call-recoder-c079d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472799000946:android:4ac4dc7510599fa386c5eb",
+        "android_client_info": {
+          "package_name": "com.example.callrecorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472799000946-0fo36f3t25iumbeuc44cg0l444hohq58.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2rgc2IubeXbUcZdYtK-QrpPsp94TQcoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472799000946-0fo36f3t25iumbeuc44cg0l444hohq58.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
