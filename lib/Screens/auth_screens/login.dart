@@ -30,6 +30,7 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -144,7 +145,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                       Utils.flushBarErrorWidget(context, 'password length must be greater then 6');
                                     }
                                     else{
-                                      // loading = true;
+                                     setState(() {
+                                       loading = true;
+                                     });
+
                                       final  userCredential= await FirebaseAuth.instance.signInWithEmailAndPassword(
                                           email: emailController.text,
                                           password: passwordController.text);
@@ -156,21 +160,31 @@ class _LogInScreenState extends State<LogInScreen> {
                                       emailController.clear();
                                       passwordController.clear();
 
-                                      // setState(() async {
-                                      // });
-                                      //   loading = false;
 
+
+                                      setState(() {
+                                        loading = false;
+                                      });
                                     }
                                   } on FirebaseAuthException catch (e) {
+                                    setState(() {
+                                      loading = false;
+                                    });
+
                                     if (e.code == 'user-not-found') {
                                       Utils.flushBarErrorWidget(context, 'No user found for that email.');
 
                                     } else if (e.code == 'wrong-password') {
                                       Utils.flushBarErrorWidget(context, 'Wrong password provided for that user.');
                                     }
+
+                                    setState(() {
+                                      loading = false;
+                                    });
                                   }
                                 },
                                 buttonText: "Login",
+                                loading: loading,
                                 height: 40,
                                 width: 150,
                                 backgroundColor: AppColors.buttonColor),

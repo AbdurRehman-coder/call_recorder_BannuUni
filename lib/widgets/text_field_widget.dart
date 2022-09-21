@@ -19,8 +19,8 @@ class TextFields {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: const TextStyle(
-            fontSize: 12,
-            color: AppColors.headingColor,
+            fontSize: 14,
+            color: Colors.white70,
             fontFamily: "JetBrainsMono"),
       ),
       validator: (value) {
@@ -60,7 +60,12 @@ class TextFields {
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: const TextStyle(
+            fontSize: 14,
+            color: Colors.white70,
+            fontFamily: "JetBrainsMono"),
       ),
+
       validator: (value) {
         return (value!.isEmpty) ? validationmessage : null;
       },
@@ -84,8 +89,8 @@ class TextFields {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: const TextStyle(
-              fontSize: 12,
-              color: AppColors.headingColor,
+              fontSize: 14,
+              color: Colors.white70,
               fontFamily: "JetBrainsMono"),
         ),
         validator: (value) {

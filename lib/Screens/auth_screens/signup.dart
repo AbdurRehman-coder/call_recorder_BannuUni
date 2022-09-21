@@ -66,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             TextFields.normalTextField(context,
                                 validationmessage: "fullname can't be empty",
-                                hintText: "Fullname",
+                                hintText: "FullName",
                             controller: nameController),
                             const SizedBox(
                               height: 20,
@@ -156,7 +156,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       Utils.flushBarErrorWidget(context, 'Confirm password should be same to Above one');
                                     }
                                     else{
-                                      // loading = true;
+                                      setState(()  {
+                                        loading = true;
+                                      });
+
                                         final  userCredential= await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                             email: emailController.text,
                                             password: passwordController.text);
@@ -169,17 +172,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         emailController.clear();
                                         passwordController.clear();
                                         confirmPasswordController.clear();
-                                      // setState(() async {
-                                      // });
-                                      //   loading = false;
+                                      setState(() {
+                                      });
+                                        loading = false;
 
                                     }
                                     } on FirebaseAuthException catch (e){
+                                      loading = false;
                                       if (e.code == 'weak-password') {
                                         Utils.flushBarErrorWidget(context, 'The password provided is too weak.');
                                       } else if (e.code == 'email-already-in-use') {
                                         Utils.flushBarErrorWidget(context, 'The account already exists for that email.');
                                       }
+                                      setState(() {
+
+                                      });
                                     }
                                   },
                                   buttonText: "Signup",

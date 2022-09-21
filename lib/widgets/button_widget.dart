@@ -36,7 +36,10 @@ class Buttons extends StatelessWidget {
         child: Center(
 
           child: loading == true ?
-              CircularProgressIndicator() :
+             const CircleAvatar(
+                radius: 12,
+                  backgroundColor: Colors.black54,
+                  child: CupertinoActivityIndicator(color: Colors.white,)) :
           Text(
             buttonText,
             style: const TextStyle(
