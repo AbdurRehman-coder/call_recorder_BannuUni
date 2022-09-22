@@ -36,7 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_sms_inbox: ^1.0.1
   flutter_share: # latest version
-  url_launcher: ^6.0.20
+#  url_launcher: ^6.0.20
+  url_launcher:
   call_log: ^4.0.0
   workmanager: ^0.5.0
   firebase_auth: ^3.3.14
@@ -51,21 +52,25 @@ dependencies:
   dio: ^4.0.6
   path_provider: ^2.0.11
   image_gallery_saver: ^1.7.1
-  flutter_sound: ^9.2.13
+#  flutter_sound: ^9.2.13
   flutter_local_notifications: ^9.7.0
-  pdf: ^3.8.2
+#  pdf: ^3.8.2
+  pdf:
   open_file: ^3.2.1
 
-  flutter_audio_recorder2: ^0.0.2
-  audioplayers: ^1.0.1
+#  flutter_audio_recorder2: ^0.0.2
+  flutter_audio_recorder2:
+#  audioplayers: ^1.0.1
+#  audioplayers:
   phone_state: ^1.0.2
-  permission_handler: ^10.0.0
+#  permission_handler: ^10.0.0
+  permission_handler:
 #  background_fetch: ^1.1.0
   move_to_background: ^1.0.2
   path: ^1.8.1
-  flutter_callkit_incoming: ^1.0.2+2
   firebase_messaging: ^13.0.2
   another_flushbar: ^1.10.29
+  flutter_phone_state:
 
 
 
@@ -79,8 +84,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
-  build_runner: ^2.2.0
-  json_serializable: ^6.3.1
+#  build_runner: ^2.2.0
+#  json_serializable: ^6.3.1
   change_app_package_name: ^1.1.0
 
 # For information on the generic Dart part of this file, see the

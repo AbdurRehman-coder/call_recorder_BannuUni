@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 // import 'package:phone_state/phone_state.dart';
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:call_recorder/Constants/colors.dart';
 import 'package:call_recorder/Constants/constant.dart';
@@ -26,7 +26,7 @@ class _CallRecordingScreenState extends State<CallRecordingScreen> {
 
   bool showPlayer = false;
   String? audioPath;
-  AudioPlayer audioPlayer = AudioPlayer();
+  // AudioPlayer audioPlayer = AudioPlayer();
   PhoneStateStatus status = PhoneStateStatus.NOTHING;
   late bool granted ;
   bool isPlay=false;
@@ -91,9 +91,9 @@ class _CallRecordingScreenState extends State<CallRecordingScreen> {
                       isPlay = !isPlay;
                     });
                     if(isPlay){
-                      audioPlayer.play(UrlSource(audioPath!));
+                      // audioPlayer.play(UrlSource(audioPath!));
                     }else{
-                      audioPlayer.stop();
+                      // audioPlayer.stop();
                     }
 
                   },

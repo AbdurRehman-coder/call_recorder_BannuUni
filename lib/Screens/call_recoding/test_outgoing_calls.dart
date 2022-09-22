@@ -1,4 +1,5 @@
 // import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
 // import 'package:flutter_phone_state/extensions_static.dart';
 // import 'package:flutter_phone_state/flutter_phone_state.dart';
 // /// The example app has the ability to initiate a call from within the app; otherwise, it lists all
@@ -43,8 +44,7 @@
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
+//     return  Scaffold(
 //         appBar: AppBar(
 //           title: const Text('Phone Call State Example App'),
 //         ),
@@ -105,8 +105,7 @@
 //             if (_rawEvents.isEmpty) Center(child: Text("No Raw Events")),
 //           ],
 //         ),
-//       ),
-//     );
+//       );
 //   }
 //
 //   Widget _cell(text) {

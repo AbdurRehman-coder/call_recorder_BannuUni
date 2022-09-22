@@ -1,12 +1,16 @@
+
+
 import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 // import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
+import 'package:flutter_phone_state/flutter_phone_state.dart';
+import 'package:flutter_phone_state/phone_event.dart';
 import 'package:path/path.dart';
 
 // import 'package:flutter_file_manager/flutter_file_manager.dart';
@@ -52,6 +56,49 @@ class CallRecorderViewState extends State<CallRecorderView> {
     }
   }
 
+  bool callStarted = false;
+  List<RawPhoneEvent>? _rawEvents;
+  List<PhoneCallEvent>? _phoneEvents;
+
+  /// The result of the user typing
+  String? _phoneNumber;
+
+  List<R> _accumulate<R>(Stream<R> input) {
+    final items = <R>[];
+    input.forEach((item) {
+      if (item != null) {
+        print('accumulate item: ${item}');
+
+        print('item value: ${item} ,, ${item.runtimeType} ,, ${item.toString().startsWith('statue')} ,, '
+            '${item.toString().split('{')}');
+        /// String Operations
+        String splitedString = item.toString().split('{').toString();
+        String splitValue = splitedString.replaceAll(' ', '');
+        print('splite Value: $splitValue');
+        String afterSplit = splitValue.substring(20, 29);
+        print('afterSplit: ${afterSplit}');
+        if (afterSplit == 'connected') {
+          print('raw connected:');
+          // RecorderExampleState().start();
+          _start();
+        } else if (afterSplit == 'disconnec') {
+          print('yai tho disconnected hogay meri jan');
+          if(callStarted == true){
+            _stop();
+            callStarted = false;
+          }
+
+        }
+
+        setState(() {
+          items.add(item);
+        });
+      }
+    });
+    return items;
+  }
+
+
   List<String> musicPathList = [];
   @override
   void initState() {
@@ -63,7 +110,8 @@ class CallRecorderViewState extends State<CallRecorderView> {
     _init();
     // if (Platform.isIOS) setStream();
     // getFiles();
-
+    _phoneEvents = _accumulate(FlutterPhoneState.phoneCallEvents);
+    _rawEvents = _accumulate(FlutterPhoneState.rawPhoneEvents);
   }
 
   /// Get recorded files path
@@ -190,7 +238,7 @@ class CallRecorderViewState extends State<CallRecorderView> {
                             icon: Icon(Icons.play_circle),
                             onPressed: (){
                               // onPlayAudio(musicPathList[index].toString());
-                              onPlayAudio(_songs[index]);
+                              // onPlayAudio(_songs[index]);
 
                             },
                           ),
@@ -343,10 +391,11 @@ class CallRecorderViewState extends State<CallRecorderView> {
     return Text(text, style: TextStyle(color: Colors.white));
   }
 
-  void onPlayAudio(String audioPath) async {
-    print('audio Path: $audioPath');
-    AudioPlayer audioPlayer = AudioPlayer();
-    await audioPlayer.play(DeviceFileSource(audioPath));
-    // await audioPlayer.play(DeviceFileSource(_current!.path!));
-  }
+  ///TODO: To be implemented for play recorded voices in Application
+  // void onPlayAudio(String audioPath) async {
+  //   print('audio Path: $audioPath');
+  //   AudioPlayer audioPlayer = AudioPlayer();
+  //   await audioPlayer.play(DeviceFileSource(audioPath));
+  //   // await audioPlayer.play(DeviceFileSource(_current!.path!));
+  // }
 }

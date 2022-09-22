@@ -12,7 +12,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Constants/colors.dart';
+import '../../locator.dart';
 import '../../utils/flush_bar.dart';
+import '../../utils/notification.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/curved_container.dart';
 import '../../widgets/custom_app_bar.dart';
@@ -153,13 +155,15 @@ class _LogInScreenState extends State<LogInScreen> {
                                           email: emailController.text,
                                           password: passwordController.text);
                                       print('user credentials: ${userCredential.user!.email}');
+                                     NotificationService notify= NotificationService();
+                                     notify.showNotifications('Wellcome ${emailController.text} ','You Login Successfully in I-Droid App ');
+                                     // await storage.setUser(localUserData);
 
                                       Utils.snackBarWidget(context, 'Logged In Successfully');
                                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                                       /// clear all controller
                                       emailController.clear();
                                       passwordController.clear();
-
 
 
                                       setState(() {

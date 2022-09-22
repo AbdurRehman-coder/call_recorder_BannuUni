@@ -81,9 +81,10 @@ class HomePageState extends State<HomePage> {
                             child: RaisedButton(
                               onPressed: ()async {
                                final  granted = await requestPermission();
-                                Navigator.push(context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>  CallEventOccur(isCallpermission: granted)));
+                                // Navigator.push(context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>  CallEventOccur(isCallpermission: granted),),
+                                // );
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0)),
@@ -326,8 +327,8 @@ class HomePageState extends State<HomePage> {
                             child: RaisedButton(
                               onPressed: ()async {
 
-                                final pdfFile = await PdfApi.generateCenteredText( );
-                                PdfApi.openFile(pdfFile);
+                                // final pdfFile = await PdfApi.generateCenteredText( );
+                                // PdfApi.openFile(pdfFile);
 
                               },
                               shape: RoundedRectangleBorder(

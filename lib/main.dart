@@ -55,8 +55,8 @@ class _MyAppState extends State<MyApp> {
       title: 'I-Droid Call Recorder',
       // home: const MainPage(),
       home: SafeArea(
-          child: LogInScreen()),
-      // home: CallRecordingScreen(isCallpermission: true,),
+          // child: LogInScreen()),
+      child: CallRecordingScreen(isCallpermission: true,)),
       builder: (context, widget) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
