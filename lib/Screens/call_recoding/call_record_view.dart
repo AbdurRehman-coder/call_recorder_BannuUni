@@ -1,16 +1,18 @@
-
-
+//@dart=2.9
 import 'dart:async';
+
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:call_recorder/provider/call_record_notifier.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:audioplayers/audioplayers.dart';
 // import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
-import 'package:flutter_phone_state/flutter_phone_state.dart';
-import 'package:flutter_phone_state/phone_event.dart';
+// import 'package:flutter_phone_state/flutter_phone_state.dart';
+// import 'package:flutter_phone_state/phone_event.dart';
 import 'package:path/path.dart';
 
 // import 'package:flutter_file_manager/flutter_file_manager.dart';
@@ -19,6 +21,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 // import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:phone_state/phone_state.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/custom_call_play_widget.dart';
 
@@ -33,14 +36,24 @@ class CallRecorderView extends StatefulWidget {
 }
 
 class CallRecorderViewState extends State<CallRecorderView> {
-  FlutterAudioRecorder2? _recorder;
-  Recording? _current;
+  /// for playing audio recorded voices/sounds
+  AudioPlayer audioPlayer = AudioPlayer();
+  /// for recording the voices
+  FlutterAudioRecorder2 _recorder;
+  Recording _current;
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   PhoneStateStatus callStatus = PhoneStateStatus.NOTHING;
 
-  List<FileSystemEntity>? _files;
+  /// For AudioPlayer to play our recorded voices
+  /// and watch their progress
+  bool isPlaying = false;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+
+  List<FileSystemEntity> _files;
   // List<FileSystemEntity> _songs = [];
   List<String> _songs = [];
+  List<String> generalSongsFile = [];
   Future<bool> requestPermission() async {
     var permissionStatus = await Permission.phone.request();
 
@@ -57,11 +70,11 @@ class CallRecorderViewState extends State<CallRecorderView> {
   }
 
   bool callStarted = false;
-  List<RawPhoneEvent>? _rawEvents;
-  List<PhoneCallEvent>? _phoneEvents;
+  // List<RawPhoneEvent> _rawEvents;
+  // List<PhoneCallEvent> _phoneEvents;
 
   /// The result of the user typing
-  String? _phoneNumber;
+  String _phoneNumber;
 
   List<R> _accumulate<R>(Stream<R> input) {
     final items = <R>[];
@@ -104,15 +117,46 @@ class CallRecorderViewState extends State<CallRecorderView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    requestPermission();
+    BuildContext buildContext;
+    // requestPermission();
     setStream();
     // bool granted = requestPermission();
     _init();
+    // getRecordedFiles();
     // if (Platform.isIOS) setStream();
     // getFiles();
-    _phoneEvents = _accumulate(FlutterPhoneState.phoneCallEvents);
-    _rawEvents = _accumulate(FlutterPhoneState.rawPhoneEvents);
+    // _phoneEvents = _accumulate(FlutterPhoneState.phoneCallEvents);
+    // _rawEvents = _accumulate(FlutterPhoneState.rawPhoneEvents);
+    // final callNotifier = Provider.of<CallRecordingNotifer>(buildContext, listen: false);
+    // /// Listen to State: Playing, Paused, Stopped
+    // audioPlayer.onPlayerStateChanged.listen((state) {
+    //   setState(() {
+    //     // isPlaying = state == PlayerState.playing;
+    //     callNotifier.setIsPlaying(state == PlayerState.playing);
+    //   });
+    // });
+    // /// Listen to audio Duration
+    // audioPlayer.onDurationChanged.listen((newDuration) {
+    //   setState(() {
+    //     // duration = newDuration;
+    //     callNotifier.setDuration(newDuration);
+    //   });
+    // });
+    // /// Listen to audio Position
+    // audioPlayer.onPositionChanged.listen((newPosition) {
+    //   setState(() {
+    //     // position = newPosition;
+    //     callNotifier.setPosition(newPosition);
+    //   });
+    // });
   }
+  @override
+  void dispose(){
+    super.dispose();
+    audioPlayer.release();
+    audioPlayer.dispose();
+  }
+
 
   /// Get recorded files path
   getRecordedFiles() async{
@@ -123,9 +167,10 @@ class CallRecorderViewState extends State<CallRecorderView> {
     print('mp3Path :: ${mp3Path}');
 
     _files = dir.listSync(recursive: true, followLinks: false);
-    for(FileSystemEntity entity in _files!) {
+    for(FileSystemEntity entity in _files) {
       String path = entity.path;
-      if(path.endsWith('.wav')) {
+      generalSongsFile.add(entity.path);
+      // if(path.endsWith('.wav')) {
         setState(() {
           print('entity:: ${entity}');
           if(_songs.contains(entity.path)) {
@@ -135,19 +180,20 @@ class CallRecorderViewState extends State<CallRecorderView> {
             _songs.add(entity.path);
           }
         });
-      }
+      // }
 
     }
-    print('_files length: ${_files!.length}');
+
+    setState(() {});
+
+    print('_files length: ${_files.length}');
     print("_songs: $_songs");
     print("songs length: ${_songs.length}");
+    print("generalSongsFile : ${generalSongsFile.length}");
+    for(int i = 0; i < generalSongsFile.length ; i++){
+    print("generalSongsFile : ${generalSongsFile[i]}"); }
 
-    // io.Directory dir = io.Directory('');
-    // // io.Directory? extDir = await getExternalStorageDirectory();
-    // // String pdfPath = extDir! + "/pdf/";
-    // List<FileSystemEntity>? _filesystem;
-    // _filesystem = dir.listSync(recursive: true, followLinks: false).cast<FileSystemEntity>();
-    // print('file system length: ${_filesystem}');
+
   }
 
 
@@ -166,6 +212,9 @@ class CallRecorderViewState extends State<CallRecorderView> {
           } else if(callStatus == PhoneStateStatus.CALL_ENDED){
             print('call Status stop: $callStatus');
             _stop();
+            setState(() {
+
+            });
           } else{
             print('call status: $event');
           }
@@ -193,9 +242,31 @@ class CallRecorderViewState extends State<CallRecorderView> {
 
   @override
   Widget build(BuildContext context) {
-    // print('current path data type: ${_current!.path.runtimeType} ,, ${_current!.path!}, ${musicPathList.length}');
-    /// Call to get the Recorded files from the storage
     getRecordedFiles();
+    final callNotifier = Provider.of<CallRecordingNotifer>(context);
+    /// Listen to State: Playing, Paused, Stopped
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      setState(() {
+        // isPlaying = state == PlayerState.playing;
+        callNotifier.setIsPlaying(state == PlayerState.playing);
+        print('audio complete status: ${PlayerState.stopped} ,, $state');
+      });
+    });
+    /// Listen to audio Duration
+    audioPlayer.onDurationChanged.listen((newDuration) {
+      setState(() {
+        // duration = newDuration;
+        callNotifier.setDuration(newDuration);
+
+      });
+    });
+    /// Listen to audio Position
+    audioPlayer.onPositionChanged.listen((newPosition) {
+      setState(() {
+        // position = newPosition;
+        callNotifier.setPosition(newPosition);
+      });
+    });
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -226,7 +297,7 @@ class CallRecorderViewState extends State<CallRecorderView> {
                               backgroundColor: Colors.blue,
                               radius: 18,
                               child: Text(index.toString(),
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                style: Theme.of(context).textTheme.bodyText1.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w800,
                                     fontSize: 14
@@ -234,14 +305,34 @@ class CallRecorderViewState extends State<CallRecorderView> {
                             ),
                             title: Text(basename(_songs[index])),
                           // subtitle: Text(_files.toString() ?? ' '),
+                            iconColor: callNotifier.isPlaying  && callNotifier.currentSongIndex == index ?
+                            Colors.greenAccent : Colors.blue,
                           trailing: IconButton(
-                            icon: Icon(Icons.play_circle),
-                            onPressed: (){
-                              // onPlayAudio(musicPathList[index].toString());
+                            icon: Icon(
+                                callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
+                                Icons.pause_circle : Icons.play_circle,),
+
+                            onPressed: () async{
                               // onPlayAudio(_songs[index]);
+                              callNotifier.setCurrentSongIndex(index);
+                              if(callNotifier.isPlaying){
+                                await audioPlayer.pause();
+                              } else{
+                                await audioPlayer.play(DeviceFileSource(_songs[index]));
+                              }
+
 
                             },
                           ),
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
+                                    callNotifier.position.inSeconds.toString() : position.inSeconds.toString()),
+                                Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
+                                    callNotifier.duration.inSeconds.toString() : duration.inSeconds.toString())
+                              ],
+                            ),
                     ),
                         ),
                       );
@@ -287,17 +378,18 @@ class CallRecorderViewState extends State<CallRecorderView> {
         // .mp4 .m4a .aac <---> AudioFormat.AAC
         // AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
         _recorder =
-            FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.WAV);
+            // FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.WAV);
+            FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.AAC);
 
-        await _recorder!.initialized;
+        await _recorder.initialized;
 
         /// after initialization
-        var current = await _recorder!.current(channel: 0);
+        var current = await _recorder.current(channel: 0);
 
         /// should be "Initialized", if all working fine
         setState(() {
           _current = current;
-          _currentStatus = current!.status!;
+          _currentStatus = current.status;
           print('current status: $_currentStatus');
         });
       } else {
@@ -311,8 +403,8 @@ class CallRecorderViewState extends State<CallRecorderView> {
 
   _start() async {
     try {
-      await _recorder!.start();
-      var recording = await _recorder!.current(channel: 0);
+      await _recorder.start();
+      var recording = await _recorder.current(channel: 0);
       setState(() {
         _current = recording;
       });
@@ -323,42 +415,44 @@ class CallRecorderViewState extends State<CallRecorderView> {
           t.cancel();
         }
 
-        var current = await _recorder!.current(channel: 0);
+        var current = await _recorder.current(channel: 0);
         // print(current.status);
         setState(() {
           _current = current;
-          _currentStatus = _current!.status!;
+          _currentStatus = _current.status;
         });
       });
     } catch (e) {
-      print(e);
+      print('call recording start exception: $e');
     }
   }
 
   _resume() async {
-    await _recorder!.resume();
+    await _recorder.resume();
     setState(() {});
   }
 
   _pause() async {
-    await _recorder!.pause();
+    await _recorder.pause();
     setState(() {});
   }
 
   _stop() async {
-    var result = await _recorder!.stop();
-    print("Stop recording: ${result!.path} ,, $result");
+    print('Call stopped');
+    var result = await _recorder.stop();
+    print("Stop recording: ${result.path} ,, $result");
     print("Stop recording: ${result.duration}");
 
     /// TODO: Here we will implement SQLite Database
 
     File file = widget.localFileSystem.file(result.path);
-    print("File length: ${await file.length()}");
+    print("File length: ${await file.path}");
     setState(() {
       _current = result;
-      _currentStatus = _current!.status!;
-      musicPathList.add(_current!.path!);
+      _currentStatus = _current.status;
+      musicPathList.add(_current.path);
     });
+    setState(() {});
   }
 
   Widget _buildText(RecordingStatus status) {
@@ -392,10 +486,10 @@ class CallRecorderViewState extends State<CallRecorderView> {
   }
 
   ///TODO: To be implemented for play recorded voices in Application
-  // void onPlayAudio(String audioPath) async {
-  //   print('audio Path: $audioPath');
-  //   AudioPlayer audioPlayer = AudioPlayer();
-  //   await audioPlayer.play(DeviceFileSource(audioPath));
-  //   // await audioPlayer.play(DeviceFileSource(_current!.path!));
-  // }
+  void onPlayAudio(String audioPath) async {
+    print('audio Path: $audioPath');
+    AudioPlayer audioPlayer = AudioPlayer();
+    await audioPlayer.play(DeviceFileSource(audioPath));
+    // await audioPlayer.play(DeviceFileSource(_current!.path!));
+  }
 }
