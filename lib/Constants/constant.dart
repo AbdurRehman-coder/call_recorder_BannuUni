@@ -8,9 +8,7 @@ import 'package:workmanager/workmanager.dart';
 Iterable<CallLogEntry> lastCallList = [];
 //TOP-LEVEL FUNCTION PROVIDED FOR WORK MANAGER AS CALLBACK
 
-bool isCallRecordingSave = false;
-bool isTextMessageSave = false;
-bool isSearchingOn = false;
+
 
 Future<bool> init() async {
   Workmanager().registerOneOffTask(

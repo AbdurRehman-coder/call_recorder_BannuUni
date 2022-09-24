@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../Constants/colors.dart';
 import '../../utils/flush_bar.dart';
+import '../../utils/notification.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/curved_container.dart';
 import '../../widgets/custom_app_bar.dart';
@@ -164,6 +165,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             email: emailController.text,
                                             password: passwordController.text);
                                         print('user credentials: ${userCredential.user!.email}');
+                                        ///For Notifications
+                                      NotificationService notify= NotificationService();
+                                      notify.showNotifications('Welcome','Signup Successfully');
 
                                         Utils.snackBarWidget(context, 'Registered Successfully, Please Log in');
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => LogInScreen()));
@@ -175,7 +179,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       setState(() {
                                       });
                                         loading = false;
-
                                     }
                                     } on FirebaseAuthException catch (e){
                                       loading = false;

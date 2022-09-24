@@ -118,12 +118,13 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('app in resume');
     WidgetsBinding.instance.addObserver(this);
     // requestPermission();
     setStream();
     // bool granted = requestPermission();
-    _init();
-    // getRecordedFiles();
+    init();
+    getRecordedFiles();
 
   }
   @override
@@ -131,8 +132,29 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
     super.dispose();
     audioPlayer.release();
     audioPlayer.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if(state == AppLifecycleState.inactive || state == AppLifecycleState.detached){
+      print('In active and detached');
+      init();
+      setStream();
+      getRecordedFiles();
+    }
+    final isBackground = state == AppLifecycleState.paused;
+    if(isBackground){
+      print('isBackground: $isBackground');
+      init();
+      setStream();
+    } else{
+      getRecordedFiles();
+      print('other isBackground: $state');
+    }
+  }
 
   /// Get recorded files path
   getRecordedFiles() async{
@@ -242,39 +264,48 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
     final callNotifier = Provider.of<CallRecordingNotifer>(context);
     /// Listen to State: Playing, Paused, Stopped
     audioPlayer.onPlayerStateChanged.listen((state) {
-      setState(() {
-        // isPlaying = state == PlayerState.playing;
-        callNotifier.setIsPlaying(state == PlayerState.playing);
-        print('audio complete status: ${PlayerState.stopped} ,, $state');
-      });
+      if(mounted) {
+        setState(() {
+          // isPlaying = state == PlayerState.playing;
+          callNotifier.setIsPlaying(state == PlayerState.playing);
+          print('audio complete status: ${PlayerState.stopped} ,, $state');
+        });
+      }
     });
     /// Listen to audio Duration
     audioPlayer.onDurationChanged.listen((newDuration) {
-      setState(() {
-        // duration = newDuration;
-        callNotifier.setDuration(newDuration);
-
-      });
+      if(mounted) {
+        setState(() {
+          // duration = newDuration;
+          callNotifier.setDuration(newDuration);
+        });
+      }
     });
     /// Listen to audio Position
     audioPlayer.onPositionChanged.listen((newPosition) {
-      setState(() {
-        // position = newPosition;
-        callNotifier.setPosition(newPosition);
-      });
+      if(mounted) {
+        setState(() {
+          // position = newPosition;
+          callNotifier.setPosition(newPosition);
+        });
+      }
     });
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primaryColor,
-        body: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: AppColors.primaryColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(14),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                SizedBox(height: 16),
-            Text('Call Record PlayList',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                // SizedBox(height: 16),
+            const Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 14),
+              child: Text('Call Record PlayList',
+              style: TextStyle(
+                  color: AppColors.buttonTextColor, fontSize: 18, fontWeight: FontWeight.bold),),
+            ),
 
                 _songs.isNotEmpty ?
                 ListView.builder(
@@ -301,7 +332,9 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
                                       fontSize: 14
                                   ),),
                               ),
-                              title: Text(basename(_songs[index])),
+                              title: Text(basename(_songs[index]),
+                              style: const TextStyle(
+                                color: AppColors.buttonTextColor, fontSize: 16, fontWeight: FontWeight.w600),),
                             // subtitle: Text(_files.toString() ?? ' '),
                               iconColor: callNotifier.isPlaying  && callNotifier.currentSongIndex == index ?
                               Colors.greenAccent : Colors.blue,
@@ -325,10 +358,13 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
                               subtitle: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
+                                  const Text(''
+                                      // callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
+                                      // callNotifier.position.inSeconds.toString() : position.inSeconds.toString(),
+                                  ),
                                   Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
-                                      callNotifier.position.inSeconds.toString() : position.inSeconds.toString()),
-                                  Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
-                                      callNotifier.duration.inSeconds.toString() : duration.inSeconds.toString())
+                                      callNotifier.duration.inSeconds.toString() : duration.inSeconds.toString(),
+                                  style: TextStyle(color: Colors.white70, fontSize: 14),)
                                 ],
                               ),
                       ),
@@ -353,7 +389,7 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
     );
   }
 
-  _init() async {
+  init() async {
     try {
       bool hasPermission = await FlutterAudioRecorder2.hasPermissions ?? false;
 

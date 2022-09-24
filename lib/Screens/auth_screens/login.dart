@@ -125,14 +125,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           Center(
                             child: Buttons(
                                 onTap: () async{
-                                  // if (_formKey.currentState!.validate()) {
-                                  //   ScaffoldMessenger.of(context).showSnackBar(
-                                  //     const SnackBar(
-                                  //         content: Text('Successfull  login')),
-                                  //   );
-                                  // } else {
-                                  //   return "somthing went wrong";
-                                  // }
+
                                   /// Email
                                   try{
                                     /// Email
@@ -156,7 +149,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                           password: passwordController.text);
                                       print('user credentials: ${userCredential.user!.email}');
                                      NotificationService notify= NotificationService();
-                                     notify.showNotifications('Wellcome ${emailController.text} ','You Login Successfully in I-Droid App ');
+                                     notify.showNotifications('Welcome','You Login Successfully in I-Droid App ');
                                      // await storage.setUser(localUserData);
 
                                       Utils.snackBarWidget(context, 'Logged In Successfully');
@@ -164,8 +157,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                       /// clear all controller
                                       emailController.clear();
                                       passwordController.clear();
-
-
                                       setState(() {
                                         loading = false;
                                       });
@@ -197,7 +188,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             height: 30,
                           ),
                          Row(children:  [
-                           Text("Don't have an account?",
+                           const Text("Don't have an account?",
                              style:  TextStyle(
                                  color: AppColors.headingColor,
                                  wordSpacing: 2,

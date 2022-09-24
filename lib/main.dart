@@ -1,5 +1,5 @@
 //@dart=2.9
-import 'package:background_fetch/background_fetch.dart';
+
 import 'package:call_log/call_log.dart';
 import 'package:call_recorder/Constants/constant.dart';
 import 'package:call_recorder/Screens/auth_screens/login.dart';
@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'Screens/call_recoding/background_handler.dart';
+import 'Screens/call_record/call_record_screen.dart';
 import 'Screens/loginInPage.dart';
 
 
@@ -42,7 +43,7 @@ void main() async {
   runApp(const MyApp());
   // Register to receive BackgroundFetch events after app is terminated.
   // Requires {stopOnTerminate: false, enableHeadless: true}
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  // BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
 
 
@@ -67,8 +68,8 @@ class _MyAppState extends State<MyApp> {
         title: 'I-Droid Call Recorder',
         // home: const MainPage(),
         home: SafeArea(
-          // child: LogInScreen()),
-            child: CallRecorderView(),
+          child: LogInScreen(),
+            // child: CallRecordScreen(),
             // child: BackgroundTaskHandler(),
         ),
         builder: (context, widget) {
