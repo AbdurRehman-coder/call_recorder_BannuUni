@@ -1,4 +1,5 @@
 //@dart=2.9
+import 'package:background_fetch/background_fetch.dart';
 import 'package:call_log/call_log.dart';
 import 'package:call_recorder/Constants/constant.dart';
 import 'package:call_recorder/Screens/auth_screens/login.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
 
+import 'Screens/call_recoding/background_handler.dart';
 import 'Screens/loginInPage.dart';
 
 
@@ -38,6 +40,9 @@ void main() async {
   // );
 
   runApp(const MyApp());
+  // Register to receive BackgroundFetch events after app is terminated.
+  // Requires {stopOnTerminate: false, enableHeadless: true}
+  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
 
 
@@ -63,7 +68,9 @@ class _MyAppState extends State<MyApp> {
         // home: const MainPage(),
         home: SafeArea(
           // child: LogInScreen()),
-            child: CallRecorderView()),
+            child: CallRecorderView(),
+            // child: BackgroundTaskHandler(),
+        ),
         builder: (context, widget) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),

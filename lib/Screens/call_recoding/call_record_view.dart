@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:call_recorder/Constants/colors.dart';
 import 'package:call_recorder/provider/call_record_notifier.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:audioplayers/audioplayers.dart';
@@ -35,7 +36,7 @@ class CallRecorderView extends StatefulWidget {
   State<StatefulWidget> createState() => CallRecorderViewState();
 }
 
-class CallRecorderViewState extends State<CallRecorderView> {
+class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBindingObserver{
   /// for playing audio recorded voices/sounds
   AudioPlayer audioPlayer = AudioPlayer();
   /// for recording the voices
@@ -76,40 +77,40 @@ class CallRecorderViewState extends State<CallRecorderView> {
   /// The result of the user typing
   String _phoneNumber;
 
-  List<R> _accumulate<R>(Stream<R> input) {
-    final items = <R>[];
-    input.forEach((item) {
-      if (item != null) {
-        print('accumulate item: ${item}');
-
-        print('item value: ${item} ,, ${item.runtimeType} ,, ${item.toString().startsWith('statue')} ,, '
-            '${item.toString().split('{')}');
-        /// String Operations
-        String splitedString = item.toString().split('{').toString();
-        String splitValue = splitedString.replaceAll(' ', '');
-        print('splite Value: $splitValue');
-        String afterSplit = splitValue.substring(20, 29);
-        print('afterSplit: ${afterSplit}');
-        if (afterSplit == 'connected') {
-          print('raw connected:');
-          // RecorderExampleState().start();
-          _start();
-        } else if (afterSplit == 'disconnec') {
-          print('yai tho disconnected hogay meri jan');
-          if(callStarted == true){
-            _stop();
-            callStarted = false;
-          }
-
-        }
-
-        setState(() {
-          items.add(item);
-        });
-      }
-    });
-    return items;
-  }
+  // List<R> _accumulate<R>(Stream<R> input) {
+  //   final items = <R>[];
+  //   input.forEach((item) {
+  //     if (item != null) {
+  //       print('accumulate item: ${item}');
+  //
+  //       print('item value: ${item} ,, ${item.runtimeType} ,, ${item.toString().startsWith('statue')} ,, '
+  //           '${item.toString().split('{')}');
+  //       /// String Operations
+  //       String splitedString = item.toString().split('{').toString();
+  //       String splitValue = splitedString.replaceAll(' ', '');
+  //       print('splite Value: $splitValue');
+  //       String afterSplit = splitValue.substring(20, 29);
+  //       print('afterSplit: ${afterSplit}');
+  //       if (afterSplit == 'connected') {
+  //         print('raw connected:');
+  //         // RecorderExampleState().start();
+  //         _start();
+  //       } else if (afterSplit == 'disconnec') {
+  //         print('yai tho disconnected hogay meri jan');
+  //         if(callStarted == true){
+  //           _stop();
+  //           callStarted = false;
+  //         }
+  //
+  //       }
+  //
+  //       setState(() {
+  //         items.add(item);
+  //       });
+  //     }
+  //   });
+  //   return items;
+  // }
 
 
   List<String> musicPathList = [];
@@ -117,38 +118,13 @@ class CallRecorderViewState extends State<CallRecorderView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    BuildContext buildContext;
+    WidgetsBinding.instance.addObserver(this);
     // requestPermission();
     setStream();
     // bool granted = requestPermission();
     _init();
     // getRecordedFiles();
-    // if (Platform.isIOS) setStream();
-    // getFiles();
-    // _phoneEvents = _accumulate(FlutterPhoneState.phoneCallEvents);
-    // _rawEvents = _accumulate(FlutterPhoneState.rawPhoneEvents);
-    // final callNotifier = Provider.of<CallRecordingNotifer>(buildContext, listen: false);
-    // /// Listen to State: Playing, Paused, Stopped
-    // audioPlayer.onPlayerStateChanged.listen((state) {
-    //   setState(() {
-    //     // isPlaying = state == PlayerState.playing;
-    //     callNotifier.setIsPlaying(state == PlayerState.playing);
-    //   });
-    // });
-    // /// Listen to audio Duration
-    // audioPlayer.onDurationChanged.listen((newDuration) {
-    //   setState(() {
-    //     // duration = newDuration;
-    //     callNotifier.setDuration(newDuration);
-    //   });
-    // });
-    // /// Listen to audio Position
-    // audioPlayer.onPositionChanged.listen((newPosition) {
-    //   setState(() {
-    //     // position = newPosition;
-    //     callNotifier.setPosition(newPosition);
-    //   });
-    // });
+
   }
   @override
   void dispose(){
@@ -160,6 +136,7 @@ class CallRecorderViewState extends State<CallRecorderView> {
 
   /// Get recorded files path
   getRecordedFiles() async{
+    print('get files called');
     String customPath = '/flutter_audio_recorder_';
     Directory appDocDirectory = await getApplicationDocumentsDirectory();
     Directory dir = Directory(appDocDirectory.path);
@@ -169,26 +146,45 @@ class CallRecorderViewState extends State<CallRecorderView> {
     _files = dir.listSync(recursive: true, followLinks: false);
     for(FileSystemEntity entity in _files) {
       String path = entity.path;
+      print('All Path: $path');
       generalSongsFile.add(entity.path);
-      // if(path.endsWith('.wav')) {
-        setState(() {
-          print('entity:: ${entity}');
-          if(_songs.contains(entity.path)) {
-            print('already contained');
+      String pathLastChar = path.substring(path.length - 5);
 
+      if (pathLastChar == '.temp') {
+        print('Yes contained with .temp');
+        String removeTempString = path.replaceAll('.temp', '');
+        if(removeTempString.endsWith('.wav')){
+          print('remove temp String: $removeTempString');
+          if(_songs.contains(removeTempString)){
+            print('alread in contain');
           } else{
-            _songs.add(entity.path);
+            print('added to the _song list');
+            _songs.add(removeTempString);
           }
-        });
-      // }
+        }
+        print('remove Temp String: ${removeTempString}');
+        // path = removeTempString;
+      }
+        else if (path.endsWith('.wav')) {
+          print('path also contained .wav');
+          setState(() {
+            print('entity:: ${entity}');
+            if (_songs.contains(path)) {
+              print('already contained');
+            } else {
+              _songs.add(entity.path);
+            }
+          });
+        } else{
 
+      }
     }
 
     setState(() {});
 
-    print('_files length: ${_files.length}');
-    print("_songs: $_songs");
-    print("songs length: ${_songs.length}");
+    // print('_files length: ${_files.length}');
+    // print("_songs: $_songs");
+    // print("songs length: ${_songs.length}");
     print("generalSongsFile : ${generalSongsFile.length}");
     for(int i = 0; i < generalSongsFile.length ; i++){
     print("generalSongsFile : ${generalSongsFile[i]}"); }
@@ -268,85 +264,89 @@ class CallRecorderViewState extends State<CallRecorderView> {
       });
     });
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              SizedBox(height: 16),
-          Text('Call Record PlayList',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+      child: Scaffold(
+        backgroundColor: AppColors.primaryColor,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                SizedBox(height: 16),
+            Text('Call Record PlayList',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
 
-              _songs.isNotEmpty ?
-              ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: _songs.length,
-                  itemBuilder: (context, index){
-                    return
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.blueGrey.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 01, vertical: 01),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.blue,
-                              radius: 18,
-                              child: Text(index.toString(),
-                                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 14
-                                ),),
+                _songs.isNotEmpty ?
+                ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: _songs.length,
+                    itemBuilder: (context, index){
+                      return
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.blueGrey.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(10)),
+                            padding: const EdgeInsets.symmetric(horizontal: 01, vertical: 01),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.blue,
+                                radius: 18,
+                                child: Text(index.toString(),
+                                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 14
+                                  ),),
+                              ),
+                              title: Text(basename(_songs[index])),
+                            // subtitle: Text(_files.toString() ?? ' '),
+                              iconColor: callNotifier.isPlaying  && callNotifier.currentSongIndex == index ?
+                              Colors.greenAccent : Colors.blue,
+                            trailing: IconButton(
+                              icon: Icon(
+                                  callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
+                                  Icons.pause_circle : Icons.play_circle,),
+
+                              onPressed: () async{
+                                // onPlayAudio(_songs[index]);
+                                callNotifier.setCurrentSongIndex(index);
+                                if(callNotifier.isPlaying){
+                                  await audioPlayer.pause();
+                                } else{
+                                  await audioPlayer.play(DeviceFileSource(_songs[index]));
+                                }
+
+
+                              },
                             ),
-                            title: Text(basename(_songs[index])),
-                          // subtitle: Text(_files.toString() ?? ' '),
-                            iconColor: callNotifier.isPlaying  && callNotifier.currentSongIndex == index ?
-                            Colors.greenAccent : Colors.blue,
-                          trailing: IconButton(
-                            icon: Icon(
-                                callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
-                                Icons.pause_circle : Icons.play_circle,),
-
-                            onPressed: () async{
-                              // onPlayAudio(_songs[index]);
-                              callNotifier.setCurrentSongIndex(index);
-                              if(callNotifier.isPlaying){
-                                await audioPlayer.pause();
-                              } else{
-                                await audioPlayer.play(DeviceFileSource(_songs[index]));
-                              }
-
-
-                            },
+                              subtitle: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
+                                      callNotifier.position.inSeconds.toString() : position.inSeconds.toString()),
+                                  Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
+                                      callNotifier.duration.inSeconds.toString() : duration.inSeconds.toString())
+                                ],
+                              ),
+                      ),
                           ),
-                            subtitle: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
-                                    callNotifier.position.inSeconds.toString() : position.inSeconds.toString()),
-                                Text(callNotifier.isPlaying && callNotifier.currentSongIndex == index ?
-                                    callNotifier.duration.inSeconds.toString() : duration.inSeconds.toString())
-                              ],
-                            ),
-                    ),
-                        ),
-                      );
-                  }) :
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                       SizedBox(height: 250),
-                      Center(child: Text('First Make a Call to Record...')),
-                    ],
-                  )
+                        );
+                    }) :
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                         SizedBox(height: 250),
+                        Center(child: Text('Recorded Files will show here',
+                        style: TextStyle(color: AppColors.buttonTextColor),)),
+                      ],
+                    )
 
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -374,12 +374,12 @@ class CallRecorderViewState extends State<CallRecorderView> {
             customPath +
             DateTime.now().millisecondsSinceEpoch.toStringAsFixed(5);
 
-        // .wav <---> AudioFormat.WAV
-        // .mp4 .m4a .aac <---> AudioFormat.AAC
-        // AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
+        /// .wav <---> AudioFormat.WAV
+        /// .mp4 .m4a .aac <---> AudioFormat.AAC
+        /// AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
         _recorder =
-            // FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.WAV);
-            FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.AAC);
+            FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.WAV);
+            // FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.AAC);
 
         await _recorder.initialized;
 
@@ -447,12 +447,23 @@ class CallRecorderViewState extends State<CallRecorderView> {
 
     File file = widget.localFileSystem.file(result.path);
     print("File length: ${await file.path}");
+    // if (file.path.endsWith('.wav')) {
+    //   setState(() {
+    //     if (_songs.contains(file.path)) {
+    //       print('already contained');
+    //     } else {
+    //       _songs.add(file.path);
+    //     }
+    //   });
+    // }
     setState(() {
       _current = result;
       _currentStatus = _current.status;
       musicPathList.add(_current.path);
     });
     setState(() {});
+
+    getRecordedFiles();
   }
 
   Widget _buildText(RecordingStatus status) {

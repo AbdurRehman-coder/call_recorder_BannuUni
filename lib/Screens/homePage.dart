@@ -33,6 +33,7 @@ class HomePageState extends State<HomePage> {
       length: 2,
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: AppColors.primaryColor,
           body: Column(
             children: <Widget>[
               // the tab bar with two items
