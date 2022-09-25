@@ -37,6 +37,7 @@ class MyInboxState extends State {
     // TODO: implement build
     return SafeArea(
       child: Scaffold(
+        backgroundColor: AppColors.primaryColor,
         appBar: AppBar(
           title: Text(
             'Text Messages History',
@@ -71,13 +72,14 @@ class MyInboxState extends State {
                           Icons.markunread,
                           color: Colors.pink,
                         ),
-                        title: Text(messages[index].address),
+                        title: Text(messages[index].address,
+                          style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                         subtitle: GestureDetector(
                           onTap: share,
                           child: Text(
                             messages[index].body,
                             maxLines: 2,
-                            style: TextStyle(),
+                            style: TextStyle(fontSize: 14, color: AppColors.buttonTextColor,),
                           ),
                         ),
                       ),

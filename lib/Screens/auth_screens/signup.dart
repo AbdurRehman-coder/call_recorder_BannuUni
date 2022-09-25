@@ -167,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         print('user credentials: ${userCredential.user!.email}');
                                         ///For Notifications
                                       NotificationService notify= NotificationService();
-                                      notify.showNotifications('Welcome','Signup Successfully');
+                                      notify.showNotifications('Welcome to I-Droid','Signup Successfully');
 
                                         Utils.snackBarWidget(context, 'Registered Successfully, Please Log in');
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => LogInScreen()));

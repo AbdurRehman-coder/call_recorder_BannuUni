@@ -148,8 +148,9 @@ class _LogInScreenState extends State<LogInScreen> {
                                           email: emailController.text,
                                           password: passwordController.text);
                                       print('user credentials: ${userCredential.user!.email}');
-                                     NotificationService notify= NotificationService();
-                                     notify.showNotifications('Welcome','You Login Successfully in I-Droid App ');
+                                      /// used for notification
+                                     // NotificationService notify= NotificationService();
+                                     // notify.showNotifications('Welcome','You Login Successfully in I-Droid App ');
                                      // await storage.setUser(localUserData);
 
                                       Utils.snackBarWidget(context, 'Logged In Successfully');

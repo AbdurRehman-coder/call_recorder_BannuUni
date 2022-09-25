@@ -54,7 +54,7 @@ class _CallRecordingScreenState extends State<CallRecordingScreen> {
     }
   }
   void getPermission() async{
-
+    //TODO: To be implemented for phone permissions
     granted = await requestPermission();
   setState(() {
 

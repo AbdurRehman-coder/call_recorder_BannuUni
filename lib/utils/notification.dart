@@ -19,9 +19,6 @@ class NotificationService {
   AndroidInitializationSettings('app_icon');
 
   Future<void> init() async {
-
-
-
     // //Initialization Settings for iOS
     // final IOSInitializationSettings initializationSettingsIOS =
     // IOSInitializationSettings(
@@ -69,5 +66,3 @@ class NotificationService {
 
 
 }
-
-

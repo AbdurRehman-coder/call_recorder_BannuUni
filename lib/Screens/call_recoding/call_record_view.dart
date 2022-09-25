@@ -24,6 +24,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_state/phone_state.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/notification.dart';
 import '../../widgets/custom_call_play_widget.dart';
 
 class CallRecorderView extends StatefulWidget {
@@ -292,6 +293,18 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
     });
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
+      appBar: AppBar(
+          title: const Text('Call Record History',
+            style: TextStyle(color: AppColors.buttonTextColor),),
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [goldenTextColor, appBarColor],
+                )),
+          )),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -300,12 +313,12 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 // SizedBox(height: 16),
-            const Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 14),
-              child: Text('Call Record PlayList',
-              style: TextStyle(
-                  color: AppColors.buttonTextColor, fontSize: 18, fontWeight: FontWeight.bold),),
-            ),
+            // const Padding(
+            //   padding: const EdgeInsets.only(top: 10, bottom: 14),
+            //   child: Text('Call Record PlayList',
+            //   style: TextStyle(
+            //       color: AppColors.buttonTextColor, fontSize: 18, fontWeight: FontWeight.bold),),
+            // ),
 
                 _songs.isNotEmpty ?
                 ListView.builder(
@@ -483,21 +496,17 @@ class CallRecorderViewState extends State<CallRecorderView>  with WidgetsBinding
 
     File file = widget.localFileSystem.file(result.path);
     print("File length: ${await file.path}");
-    // if (file.path.endsWith('.wav')) {
-    //   setState(() {
-    //     if (_songs.contains(file.path)) {
-    //       print('already contained');
-    //     } else {
-    //       _songs.add(file.path);
-    //     }
-    //   });
-    // }
+
     setState(() {
       _current = result;
       _currentStatus = _current.status;
       musicPathList.add(_current.path);
     });
     setState(() {});
+
+    ///For Notifications
+    NotificationService notify= NotificationService();
+    notify.showNotifications('Saved','Call Record Saved Successfully');
 
     getRecordedFiles();
   }

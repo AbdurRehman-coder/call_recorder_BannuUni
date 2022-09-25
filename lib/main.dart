@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'Screens/call_recoding/background_handler.dart';
-import 'Screens/call_record/call_record_screen.dart';
+import 'Screens/call_recoding/call_log_history_screen.dart';
 import 'Screens/loginInPage.dart';
 
 

@@ -8,11 +8,8 @@ import 'package:call_recorder/Constants/constant.dart';
 import 'package:call_recorder/Screens/auth_screens/login.dart';
 import 'package:call_recorder/Screens/call_recoding/call_record_view.dart';
 import 'package:call_recorder/Screens/call_recoding/call_recording_screen.dart';
-import 'package:call_recorder/Screens/call_recoding/occur_call_event.dart';
 import 'package:file/local.dart';
-import 'package:call_recorder/Screens/call_record/call_record_screen.dart';
-import 'package:call_recorder/Screens/share_history/pdf.dart';
-import 'package:call_recorder/Screens/share_history/share_histroy_screen.dart';
+import 'package:call_recorder/Screens/call_recoding/call_log_history_screen.dart';
 
 import 'package:call_recorder/Screens/smsScreen.dart';
 import 'package:call_recorder/Screens/webHistory.dart';
@@ -176,10 +173,12 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                             padding: const EdgeInsets.all(8.0),
                             child: RaisedButton(
                               onPressed: ()async {
-                                print('start recording');
+                                print('isCallRecordingSave: $isCallRecordingSave');
+                                !isCallRecordingSave;
+                                print('start recording on/off');
                                final  granted = await requestPermissions();
+                               print('permissions granted: $granted');
                                if(granted){
-                                 !isCallRecordingSave;
                                  init();
                                  setStream();
                                }
@@ -199,8 +198,8 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                     ),
                                     borderRadius: BorderRadius.circular(15.0)),
                                 child: Container(
-                                  decoration :   isCallRecordingSave ? BoxDecoration(
-                                     boxShadow: [
+                                  decoration: isCallRecordingSave ?BoxDecoration(
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.red.withOpacity(0.4),
                                         spreadRadius: 7,
@@ -208,13 +207,10 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                         offset: const Offset(0, 1), // changes position of shadow
                                       ),
                                     ],
-
-                                  ) :const BoxDecoration(),
+                                  ):const BoxDecoration(),
                                   constraints: const BoxConstraints(
-                                      maxWidth: 220.0, minHeight: 50.0,
-                                  ),
+                                      maxWidth: 220.0, minHeight: 50.0),
                                   alignment: Alignment.center,
-
                                   child: const Text(
                                     "Start recording  ON/OFF",
                                     textAlign: TextAlign.center,
@@ -430,7 +426,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => CallRecordScreen()));
+                                        builder: (context) => CallLogHistoryScreen()));
 
                               },
                               shape: RoundedRectangleBorder(

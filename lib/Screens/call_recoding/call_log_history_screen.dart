@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:workmanager/workmanager.dart';
 
-class CallRecordScreen extends StatefulWidget {
+class CallLogHistoryScreen extends StatefulWidget {
 
-  const CallRecordScreen({Key? key}) : super(key: key);
+  const CallLogHistoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<CallRecordScreen> createState() => _CallRecordScreenState();
+  State<CallLogHistoryScreen> createState() => _CallLogHistoryScreenState();
 }
 
-class _CallRecordScreenState extends State<CallRecordScreen> {
+class _CallLogHistoryScreenState extends State<CallLogHistoryScreen> {
   Iterable<CallLogEntry> _callLogEntries = <CallLogEntry>[];
   bool isLoading= false;
 
@@ -48,7 +48,8 @@ class _CallRecordScreenState extends State<CallRecordScreen> {
   @override
   Widget build(BuildContext context) {
 
-    const TextStyle mono = TextStyle(fontFamily: 'monospace');
+    const TextStyle mono = TextStyle(fontFamily: 'monospace', color: AppColors.buttonTextColor,
+    fontSize: 16);
     final List<Widget> children = <Widget>[];
     for (CallLogEntry entry in _callLogEntries) {
 
@@ -75,8 +76,10 @@ class _CallRecordScreenState extends State<CallRecordScreen> {
     }
 
     return Scaffold(
+      backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
-          title: const Text('Call History'),
+          title: const Text('Call History',
+          style: TextStyle(color: AppColors.buttonTextColor),),
           centerTitle: true,
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -125,4 +128,3 @@ Widget getLastCallRecord(List<Widget> child){
 //   }
 }
 }
-

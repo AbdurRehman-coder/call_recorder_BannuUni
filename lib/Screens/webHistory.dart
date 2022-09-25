@@ -23,6 +23,7 @@ class _WebHistoryState extends State<WebHistory> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: AppColors.primaryColor,
         appBar: AppBar(
           title: Text(
             'Recent Web Pages',
@@ -52,7 +53,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Google"),
+                    title: Text("Google",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://google.com/';
@@ -61,7 +63,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "google.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                        style: TextStyle(fontSize: 14, color: AppColors.buttonTextColor),
                       ),
                     ),
                   ),
@@ -80,7 +82,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Facebook"),
+                    title: Text("Facebook",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://facebook.com/';
@@ -89,7 +92,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "facebook.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                        style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, ),
                       ),
                     ),
                   ),
@@ -108,7 +111,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Youtube"),
+                    title: Text("Youtube",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://youtube.com/';
@@ -117,7 +121,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "youtube.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                        style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor,),
                       ),
                     ),
                   ),
@@ -136,7 +140,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Yahoo"),
+                    title: Text("Yahoo",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://yahoo.com/';
@@ -145,7 +150,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "yahoo.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                        style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor,),
                       ),
                     ),
                   ),
@@ -164,7 +169,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Upwork"),
+                    title: Text("Upwork",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://upwork.com/';
@@ -173,7 +179,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "upwork.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                          style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, ),
                       ),
                     ),
                   ),
@@ -192,7 +198,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Fiverr"),
+                    title: Text("Fiverr",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor,),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://fiverr.com/';
@@ -201,7 +208,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "fiverr.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                          style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, ),
                       ),
                     ),
                   ),
@@ -220,7 +227,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Whatsapp"),
+                    title: Text("Whatsapp",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://web.whatsapp.com/';
@@ -229,7 +237,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "whatsapp.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                          style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor,),
                       ),
                     ),
                   ),
@@ -248,7 +256,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Github"),
+                    title: Text("Github",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http:/github.com/';
@@ -257,7 +266,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "github.com",
                         maxLines: 2,
-                        style: TextStyle(),
+                          style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, ),
                       ),
                     ),
                   ),
@@ -276,7 +285,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Flutter"),
+                    title: Text("Flutter",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://flutter.dev/';
@@ -285,7 +295,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "flutter.dev",
                         maxLines: 2,
-                        style: TextStyle(),
+                        style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, ),
                       ),
                     ),
                   ),
@@ -304,7 +314,8 @@ class _WebHistoryState extends State<WebHistory> {
                       Icons.history,
                       color: Colors.grey,
                     ),
-                    title: Text("Dart & Flutter Packages"),
+                    title: Text("Dart & Flutter Packages",
+                      style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, fontWeight: FontWeight.bold),),
                     subtitle: GestureDetector(
                       onTap: () {
                         const url = 'http://pub.dev/';
@@ -313,7 +324,7 @@ class _WebHistoryState extends State<WebHistory> {
                       child: Text(
                         "pub.dev",
                         maxLines: 2,
-                        style: TextStyle(),
+                        style: TextStyle(fontSize: 16, color: AppColors.buttonTextColor, ),
                       ),
                     ),
                   ),
