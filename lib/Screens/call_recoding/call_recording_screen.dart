@@ -46,11 +46,8 @@ class _CallRecordingScreenState extends State<CallRecordingScreen> {
 
   void initializeCall(){
     if (granted) {
-
       setStream();
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
   void getPermission() async{
@@ -124,7 +121,7 @@ class _CallRecordingScreenState extends State<CallRecordingScreen> {
                 if (Platform.isAndroid)
                   granted ? const SizedBox():Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: !granted
                           ? () async {
 
@@ -137,9 +134,10 @@ class _CallRecordingScreenState extends State<CallRecordingScreen> {
                         });
                       }
                           : null,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      padding: const EdgeInsets.all(0.0),
+                     style: ButtonStyle(
+                       // shape: RoundedRectangleBorder(
+                       //     borderRadius: BorderRadius.circular(20.0)),
+                     ),
                       child: Ink(
                         decoration: BoxDecoration(
                             gradient: LinearGradient(

@@ -94,16 +94,14 @@ class _State extends State<SignupPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      RaisedButton(
+                      ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => MainPage()),
                           );
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                        padding: EdgeInsets.all(0.0),
+
                         child: Ink(
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -127,7 +125,7 @@ class _State extends State<SignupPage> {
                       SizedBox(
                         width: 5,
                       ),
-                      RaisedButton(
+                      ElevatedButton(
                         onPressed: () async {
                           if (passwordController.text ==
                               confirmPasswordController.text) {
@@ -175,9 +173,7 @@ class _State extends State<SignupPage> {
                           }
 
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                        padding: EdgeInsets.all(0.0),
+
                         child: Ink(
                           decoration: BoxDecoration(
                               gradient: LinearGradient(

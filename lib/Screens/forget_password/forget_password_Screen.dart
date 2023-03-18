@@ -59,7 +59,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 height: MediaQuery.of(context).size.height * 0.05,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 // ignore: deprecated_member_use
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: ()async{
                     try {
                       await FirebaseAuth.instance.sendPasswordResetEmail(email: nameController.text.trim());
@@ -106,9 +106,6 @@ class _ForgetScreenState extends State<ForgetScreen> {
 
 
                   },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  padding: EdgeInsets.all(0.0),
                   child: Ink(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(

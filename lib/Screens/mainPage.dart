@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
 
                   padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                   // ignore: deprecated_member_use
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
 
                       Navigator.push(
@@ -85,9 +85,7 @@ class _MainPageState extends State<MainPage> {
                         MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
+
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -130,16 +128,13 @@ class _MainPageState extends State<MainPage> {
 
                   padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                   // ignore: deprecated_member_use
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SignupPage()),
                       );
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(

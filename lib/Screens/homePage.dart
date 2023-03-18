@@ -171,7 +171,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: ()async {
                                 print('isCallRecordingSave: $isCallRecordingSave');
                                 !isCallRecordingSave;
@@ -184,9 +184,6 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                }
 
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
                               child: Ink(
                                 decoration: BoxDecoration(
 
@@ -222,14 +219,11 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: () {
 
                                 setState(() =>isTextMessageSave = !isTextMessageSave);
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
                               child: Ink(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -263,13 +257,10 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: () {
                                 setState(() =>isSearchingOn = !isSearchingOn);
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
                               child: Ink(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -314,7 +305,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                           //Text messages history screen
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: () {
                                 isTextMessageSave ?EasyLoading.showInfo("Please Turn On Text Message Button"): Navigator.push(
                                   context,
@@ -322,9 +313,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                       builder: (context) => MyInbox()),
                                 );
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
+
                               child: Ink(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -334,6 +323,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                     ),
                                     borderRadius: BorderRadius.circular(15.0)),
                                 child: Container(
+                                  // color: Colors.blue,
                                   constraints: const BoxConstraints(
                                       maxWidth: 220.0, minHeight: 50.0),
                                   alignment: Alignment.center,
@@ -349,7 +339,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                           //Browser history screen
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               //onPressed: () {},
                               onPressed: () {
                                 isSearchingOn ? EasyLoading.showInfo("Please Turn On Search Button"):Navigator.push(
@@ -357,9 +347,6 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                     MaterialPageRoute(
                                         builder: (context) => const WebHistory()));
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
                               child: Ink(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -384,7 +371,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                           /// Call Recording Voices
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: () {
                                 EasyLoading.showSuccess('Please Wait... ');
                                 Navigator.push(
@@ -393,9 +380,6 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                         builder: (context) => CallRecorderView()));
 
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
                               child: Ink(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -420,7 +404,7 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                           ///Call recordings history screen
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: () {
                                 // EasyLoading.showSuccess('Please Wait... ');
                                 Navigator.push(
@@ -429,9 +413,6 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                                         builder: (context) => CallLogHistoryScreen()));
 
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
                               child: Ink(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -455,16 +436,14 @@ class HomePageState extends State<HomePage>with WidgetsBindingObserver {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: ()async {
 
                                 // final pdfFile = await PdfApi.generateCenteredText( );
                                 // PdfApi.openFile(pdfFile);
 
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              padding: const EdgeInsets.all(0.0),
+
                               child: Ink(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(

@@ -70,7 +70,7 @@ class _State extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        FlatButton(
+                        ElevatedButton(
                           //textColor: Colors.blue,
                           child: Text(
                             'Forgot Password',
@@ -91,7 +91,7 @@ class _State extends State<LoginPage> {
                   height: MediaQuery.of(context).size.height * 0.05,
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   // ignore: deprecated_member_use
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: ()async{
 
 
@@ -141,9 +141,7 @@ class _State extends State<LoginPage> {
                       // }
 
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
+
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -172,16 +170,14 @@ class _State extends State<LoginPage> {
                   height: MediaQuery.of(context).size.height * 0.05,
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   // ignore: deprecated_member_use
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SignupPage()),
                       );
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    padding: EdgeInsets.all(0.0),
+
                     child: Ink(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
